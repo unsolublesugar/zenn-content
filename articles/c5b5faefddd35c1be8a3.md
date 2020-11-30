@@ -179,9 +179,16 @@ Hello World用に新規プロジェクトを作成します。
 > npm start
 ```
 Hello World!
+
 ![](https://storage.googleapis.com/zenn-user-upload/klwvrhpywzn5sssvt1602fittr7s)
 
-あ、あっさり過ぎる…
+Chromiumで動いているので、Chromeと同じくDeveloper Toolで要素解析ができます。
+![](https://storage.googleapis.com/zenn-user-upload/cc33ghlyun4noo2zia0ekk7ceun9)
+
+Hello Worldアプリではソースコード内で`openDevTools()`が呼ばれているため、起動時にDeveloper Toolが開かれる模様。
+```js:index.js
+mainWindow.webContents.openDevTools();
+```
 
 初見では環境構築までに少々手間取るかもしれませんが、Hello Worldするのに1行もコードを書いていません。これで良いのかElectron。
 
