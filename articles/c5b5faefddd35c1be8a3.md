@@ -278,3 +278,118 @@ body {
 # Windowsインストーラー作成
 有識者であればこの時点で完全に理解したと言えるでしょうが、せっかくのデスクトップアプリということでWindowsのインストーラー作成までやってみました。
 
+## 手元でビルド実行確認
+
+手元でexeのビルド
+```shell
+> npm run make
+```
+実行確認。
+![](https://storage.googleapis.com/zenn-user-upload/pr8kc02m547lqp2yf9kk0uil344z)
+これだとElectronインストール環境でしか動かないため、配布用にパッケージングします。本記事執筆時点では`electron-packager`ではなく`electron-builder`が主流のようなので、こちらを使います。
+
+> A "complete solution to package and build a ready-for-distribution Electron app" that focuses on an integrated experience. electron-builder adds one single dependency focused on simplicity and manages all further requirements internally.
+> 
+> electron-builder replaces features and modules used by the Electron maintainers (such as the auto-updater) with custom ones. They are generally tighter integrated but will have less in common with popular Electron apps like Atom, Visual Studio Code, or Slack.
+> 
+> You can find more information and documentation in the repository.
+> https://www.electronjs.org/docs/tutorial/boilerplates-and-clis#electron-builder
+
+[electron-userland/electron-builder](https://github.com/electron-userland/electron-builder)
+
+インストール
+```shell
+> npm install -D electron-builder
+```
+
+インストールされたか確認
+```shell
+> npx electron-builder --help
+```
+
+配布用パッケージング
+```shell
+> npx electron-builder --win --x64
+```
+
+![](https://storage.googleapis.com/zenn-user-upload/y8h1lqfd3urfgfhcuk9yntvbzaoc)
+
+インストーラーによるインストール。
+![](https://storage.googleapis.com/zenn-user-upload/abgtakp1aszpu6igcfydsjpqzmzg)
+
+起動確認。
+![](https://storage.googleapis.com/zenn-user-upload/zp9r1hc3o8gat2slhia0vflvgol1)
+
+バッチリですね。
+
+# Macでのアプリ動作確認
+ついでにMacでも動作確認してみました。
+
+## 環境
+- macOS Catalina バージョン 10.15.6
+- シェル：zsh
+
+## 既存プロジェクトのインポート
+Windowsで作った既存のHello Worldプロジェクトをクローンし、npmでインポートしようとしたら怒られました。
+
+```shell
+% npx @electron-forge/cli@latest import
+```
+:::message
+[Import Existing Project - Electron Forge](https://www.electronforge.io/import-existing-project)
+:::
+
+エラーメッセージに`yarn`云々書かれてたので`yarn`でやることにしました。
+```shell
+✖ Checking your system
+
+An unhandled error has occurred inside Forge:
+Error executing command (yarn --version):
+spawn yarn ENOENT
+Error: Error executing command (yarn --version):
+spawn yarn ENOENT
+    at ChildProcess.<anonymous> (/Users/unsoluble_sugar/.npm/_npx/50704/lib/node_modules/@electron-forge/cli/node_modules/@malept/cross-spawn-promise/src/index.ts:162:14)
+    at ChildProcess.emit (events.js:314:20)
+    at Process.ChildProcess._handle.onexit (internal/child_process.js:274:12)
+    at onErrorNT (internal/child_process.js:468:16)
+    at processTicksAndRejections (internal/process/task_queues.js:80:21)
+```
+
+Mac環境に`yarn`が入ってなかったのでインストール。
+```shell
+% npm install -g yarn
+% yarn -v
+1.22.10
+```
+
+`electron-forge`をインポート。今度はエラーなく通りました。
+```shell
+% cd my-electron-app
+% yarn add --dev @electron-forge/cli
+% yarn electron-forge import
+```
+
+## 実行確認
+
+これで実行してみます。
+```
+% npm start
+```
+無事にHello Worldアプリが起動しました。
+![](https://storage.googleapis.com/zenn-user-upload/fj94ncc6ijxiwfazuraasbjsosut)
+
+Macでもパッケージングを試してみます。
+```shell
+% npm run make
+```
+
+Windowsと同様に`out`ディレクトリ配下に`app`ファイルが出力され、起動確認もOKでした。
+![](https://storage.googleapis.com/zenn-user-upload/zfsn0nuctxdzp927zkt58ou2pgdi)
+
+
+# おわりに
+Electronを使うことで、ひとつのプロジェクトでWindows、Mac対応のデスクトップアプリを動作させることができました。ここまでやればElectronの基礎は「完全に理解した」と言えるのではないでしょうか。
+
+冒頭でも述べましたが、本記事の情報も時間が経てば古くて使い物にならなくなると思います。最新の情報ソースとして、まずは公式の情報を見るようにしましょう。
+
+現場からは以上です。
