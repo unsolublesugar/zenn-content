@@ -3,7 +3,7 @@ title: "【入門】Electron完全に理解した"
 emoji: "🙌"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [electron, Windows, Mac, helloworld]
-published: false
+published: true
 ---
 
 # Electronとは
@@ -11,14 +11,14 @@ published: false
 [Electron](https://www.electronjs.org/)とは、GitHubが開発したオープンソースのフレームワークです。macOS、Windows、Linuxといったクロスプラットフォームに対応したデスクトップアプリを開発することができます。
 ![](https://storage.googleapis.com/zenn-user-upload/8ffofe346xj2f3csn3v8delp3ymd)
 
-ChromiumとNode.jsを使用しているため、HTML、CSS、JavaScriptなどのWeb技術を駆使して、デスクトップアプリをつくることができるのが大きな特徴のひとつです。
+ChromiumとNode.jsを使用しているため、HTML、CSS、JavaScriptなどのWeb技術を駆使してデスクトップアプリをつくれるのが大きな特徴のひとつです。
 
 エンジニアにはお馴染みのVSCodeやSlackをはじめ、FigmaやTwich、Microsoft TeamsなどのデスクトップアプリにもElectronが採用されています。
 ![](https://storage.googleapis.com/zenn-user-upload/ekd0gvi30n5h0dngw6vt5j2jcvmp)
 
 そんなElectronを完全に理解するために、お約束のHello Worldから入門してみました。
 # WindowsでHello Worldしてみる
-本記事では、Windowsでの環境構築とアプリのインストーラー作成までの流れを書き残しておきます。
+本記事ではWindowsでの環境構築とアプリのインストーラー作成までの流れを書き残しておきます。
 
 Macは最初からgitも入ってますしNode.jsの導入も比較的容易なため、環境構築まわりでハマることは少ないと思いますので割愛します。
 ## 環境
