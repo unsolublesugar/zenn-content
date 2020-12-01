@@ -11,33 +11,24 @@ published: false
 [Electron](https://www.electronjs.org/)とは、GitHubが開発したオープンソースのフレームワークです。macOS、Windows、Linuxといったクロスプラットフォームに対応したデスクトップアプリを開発することができます。
 ![](https://storage.googleapis.com/zenn-user-upload/8ffofe346xj2f3csn3v8delp3ymd)
 
-ChromiumとNode.jsを使用しているため、HTML、CSS、JavaScriptといったWeb技術を駆使して、デスクトップアプリをつくることができるのが大きな特徴のひとつです。
+ChromiumとNode.jsを使用しているため、HTML、CSS、JavaScriptなどのWeb技術を駆使して、デスクトップアプリをつくることができるのが大きな特徴のひとつです。
 
 エンジニアにはお馴染みのVSCodeやSlackをはじめ、FigmaやTwich、Microsoft TeamsなどのデスクトップアプリにもElectronが採用されています。
 ![](https://storage.googleapis.com/zenn-user-upload/ekd0gvi30n5h0dngw6vt5j2jcvmp)
 
+そんなElectronを完全に理解するために、お約束のHello Worldから入門してみました。
 # WindowsでHello Worldしてみる
-そんなElectronを完全に理解するために、まずはお約束のHello World入門です。本記事では、Windowsでの環境構築とアプリのインストーラー作成までの流れを書き残しておきます。
+本記事では、Windowsでの環境構築とアプリのインストーラー作成までの流れを書き残しておきます。
 
+Macは最初からgitも入ってますしNode.jsの導入も比較的容易なため、環境構築まわりでハマることは少ないと思いますので割愛します。
 ## 環境
 - OS：Windows 10
 - CLI：[PowerShell](https://docs.microsoft.com/ja-jp/powershell/)
 - エディタ：[VSCode（Visual Studio Code）](https://azure.microsoft.com/ja-jp/products/visual-studio-code/)
 
-Macは最初からgitも入ってますしNode.jsの導入も比較的容易なため、環境構築まわりでハマることは少ないと思いますので割愛します。
-
 :::message alert
 本記事の内容は2020年12月時点での情報となります。今後のアップデート等で環境構築等の手順が変わる可能性がありますので、バージョンが異なる場合は最新の公式情報をご参照ください。
 :::
-
-## はじめに（主にプログラミング初学者向け）
-Qiitaの適当な記事を参考にHello Worldするのはなるべく避けましょう。日本語情報でググって上位に出てくるのが大体Qiitaの記事なのですが…公開時期やバージョン違いによる情報が混在しており、不安定な環境構築をしてしまう恐れがあります。
-
-記事のソースがQiita記事の芋づる式で「誰も公式を見ていないのである！」といった状況が見受けられ、あまりにも地獄だったので注意喚起させていただきます。
-
-公式の手順を踏まずに環境構築した場合、他のエンジニアからのサポートをうまく受けられないことがありますので、まずは公式情報を見にいく癖をつけましょう。
-
-本記事内のリンクは、各ツールの公式情報やWindows開発者向けのMicrosoftドキュメントとなっていますので、不明点は参照先のサイトから辿っていくと解決も早いです。
 
 # gitのインストール
 
@@ -410,6 +401,6 @@ package.jsonの`build`プロパティをカスタマイズすることで、各O
 # おわりに
 Electronを使うことで、ひとつのプロジェクトでWindows、Mac対応のデスクトップアプリを動作させることができました。ここまでやればElectronの基礎は「完全に理解した」と言えるのではないでしょうか。
 
-冒頭でも述べましたが、本記事の情報も時間が経てば古くて使い物にならなくなります。最新の情報ソースとして、まずは公式の情報を見るようにしましょう。
+本記事の情報は、時間が経てば古くて使い物にならなくなります。最新の情報ソースとして、まずは公式の情報を見るようにしましょう。
 
 現場からは以上です。
