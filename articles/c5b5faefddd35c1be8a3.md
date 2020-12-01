@@ -1,5 +1,5 @@
 ---
-title: "Electron完全に理解した ～黎明編～"
+title: "【入門】Electron完全に理解した"
 emoji: "🙌"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [electron, Windows, Mac, helloworld]
@@ -26,7 +26,7 @@ ChromiumとNode.jsを使用しているため、HTML、CSS、JavaScriptといっ
 
 Macは最初からgitも入ってますしNode.jsの導入も比較的容易なため、環境構築まわりでハマることは少ないと思いますので割愛します。
 
-:::message
+:::message alert
 本記事の内容は2020年12月時点での情報となります。今後のアップデート等で環境構築等の手順が変わる可能性がありますので、バージョンが異なる場合は最新の公式情報をご参照ください。
 :::
 
@@ -64,6 +64,13 @@ git version 2.29.2.windows.2
 これでgitのインストールは完了です。
 
 # Node.jsのインストール
+Electronの開発にはNode.jsが必要です。Node.jsとnpmのバージョン確認コマンドを実行し、両コマンドが成功する場合はElectronをインストールする準備ができています。
+```shell
+> node -v
+> npm -v
+```
+コマンド実行ができない場合は、Node.jsインストールしましょう。
+
 Node.jsはバージョンアップが早いため、`nvm（バージョンマネージャー）`の使用をおすすめします。Microsoftのドキュメントが丁寧でしたので、こちらを参考にインストールしてみました。
 
 [NodeJS をネイティブ Windows 上に設定する | Microsoft Docs](https://docs.microsoft.com/ja-jp/windows/nodejs/setup-on-windows)
@@ -164,6 +171,18 @@ v11.0.3
 ```
 こんなアプリが立ち上がればOKです。
 ![](https://storage.googleapis.com/zenn-user-upload/hq9y6aiuk3fkuiclxxzeersczreu)
+
+## Electronのバージョンアップについて
+最新の安定バージョンに更新する場合は、以下コマンドを実行します。
+```shell
+> npm install --save-dev electron@latest
+```
+
+Electronのバージョン管理の詳細については、公式ドキュメントを参照してください。
+![](https://storage.googleapis.com/zenn-user-upload/2emw22tuo3wcj1zr8y05elrw3rs4)
+[Electron Versioning | Electron](https://www.electronjs.org/docs/tutorial/electron-versioning)
+
+
 
 # ElectronでHello World
 
@@ -280,13 +299,13 @@ body {
 
 ## 手元でビルド実行確認
 
-手元でexeのビルド
+まずは手元でexeファイルのビルドを試してみます。
 ```shell
 > npm run make
 ```
-実行確認。
+`out`フォルダ配下にexeファイルが生成。このexeを起動すると、先ほどと同じHello Worldアプリが動くことが確認できました。
 ![](https://storage.googleapis.com/zenn-user-upload/pr8kc02m547lqp2yf9kk0uil344z)
-これだとElectronインストール環境でしか動かないため、配布用にパッケージングします。本記事執筆時点では`electron-packager`ではなく`electron-builder`が主流のようなので、こちらを使います。
+このビルド形式だとElectronがインストールされた環境でしか動かないため、配布用にパッケージングします。本記事執筆時点では`electron-packager`ではなく`electron-builder`が主流のようなので、こちらを使います。
 
 > A "complete solution to package and build a ready-for-distribution Electron app" that focuses on an integrated experience. electron-builder adds one single dependency focused on simplicity and manages all further requirements internally.
 > 
@@ -297,24 +316,24 @@ body {
 
 [electron-userland/electron-builder](https://github.com/electron-userland/electron-builder)
 
-インストール
+electron-builderのインストール。
 ```shell
 > npm install -D electron-builder
 ```
 
-インストールされたか確認
+インストールされたか確認。
 ```shell
 > npx electron-builder --help
 ```
 
-配布用パッケージング
+配布用パッケージング。ビルドオプションはヘルプと[ドキュメント](https://www.electron.build/)を参照してください。
 ```shell
 > npx electron-builder --win --x64
 ```
-
+`dist`フォルダ配下にインストーラーが生成されます。
 ![](https://storage.googleapis.com/zenn-user-upload/y8h1lqfd3urfgfhcuk9yntvbzaoc)
 
-インストーラーによるインストール。
+インストーラーを叩いてインストール。
 ![](https://storage.googleapis.com/zenn-user-upload/abgtakp1aszpu6igcfydsjpqzmzg)
 
 起動確認。
@@ -330,16 +349,14 @@ body {
 - シェル：zsh
 
 ## 既存プロジェクトのインポート
-Windowsで作った既存のHello Worldプロジェクトをクローンし、npmでインポートしようとしたら怒られました。
+Windowsで作った既存のHello Worldプロジェクトをクローンして、Macで動かしてみます。
+[Import Existing Project - Electron Forge](https://www.electronforge.io/import-existing-project)
 
 ```shell
 % npx @electron-forge/cli@latest import
 ```
-:::message
-[Import Existing Project - Electron Forge](https://www.electronforge.io/import-existing-project)
-:::
 
-エラーメッセージに`yarn`云々書かれてたので`yarn`でやることにしました。
+npmでインポートしようとしたらエラー発生。エラーメッセージに`yarn`云々書かれてたので`yarn`でやることにしました。
 ```shell
 ✖ Checking your system
 
@@ -362,7 +379,7 @@ Mac環境に`yarn`が入ってなかったのでインストール。
 1.22.10
 ```
 
-`electron-forge`をインポート。今度はエラーなく通りました。
+`electron-forge`をインポート。今度はエラーが起きることなく通りました。
 ```shell
 % cd my-electron-app
 % yarn add --dev @electron-forge/cli
@@ -375,7 +392,7 @@ Mac環境に`yarn`が入ってなかったのでインストール。
 ```
 % npm start
 ```
-無事にHello Worldアプリが起動しました。
+無事にHello Worldアプリが起動しました。うれしい。
 ![](https://storage.googleapis.com/zenn-user-upload/fj94ncc6ijxiwfazuraasbjsosut)
 
 Macでもパッケージングを試してみます。
@@ -387,9 +404,12 @@ Windowsと同様に`out`ディレクトリ配下に`app`ファイルが出力さ
 ![](https://storage.googleapis.com/zenn-user-upload/zfsn0nuctxdzp927zkt58ou2pgdi)
 
 
+package.jsonの`build`プロパティをカスタマイズすることで、各OS用のビルド設定を行うことができます。リリース向けビルドを行う場合は、必要に応じて設定しましょう。
+[Command Line Interface (CLI) - electron-builder]()
+
 # おわりに
 Electronを使うことで、ひとつのプロジェクトでWindows、Mac対応のデスクトップアプリを動作させることができました。ここまでやればElectronの基礎は「完全に理解した」と言えるのではないでしょうか。
 
-冒頭でも述べましたが、本記事の情報も時間が経てば古くて使い物にならなくなると思います。最新の情報ソースとして、まずは公式の情報を見るようにしましょう。
+冒頭でも述べましたが、本記事の情報も時間が経てば古くて使い物にならなくなります。最新の情報ソースとして、まずは公式の情報を見るようにしましょう。
 
 現場からは以上です。
