@@ -3,11 +3,11 @@ title: "macOS Catalina zsh環境でpyenvを使ってPython 3.9.0をインスト�
 emoji: "🐍"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [mac, python, pyenv]
-published: false
+published: true
 ---
 
 # Pythonの環境構築
-お仕事で若者に「このPythonスクリプトちょっと動かしてみてくれや」と言われたのですが、MacBookにPython 3.x系が入っていなかったため環境構築しました。
+お仕事で若者に「このPythonスクリプトちょっと動かしてみてくれや」と言われたのですが、新しいMacBookにPython 3.x系が入っていなかったため環境構築しました。
 
 Python何もわからんマンのおじさんですが「バージョン管理は必須だよな！」ってことくらい知っているので[pyenv](https://github.com/pyenv/pyenv)を使います（ｷﾘｯ
 
@@ -22,7 +22,7 @@ Python 2.7.16
 2020年モデルのMacBook Proなのですが…そろそろ3.x系を入れてくれても良いのよ？
 
 # pyenvのインストール
-複数バージョン切り替えに対応するため、まずはpyenv入れます。ここではHomebrewを使います。
+複数バージョン切り替えに対応するため、まずはpyenv入れます。ここではHomebrewを使ってインストールします。
 
 [The Missing Package Manager for macOS (or Linux) — Homebrew](https://brew.sh/)
 
@@ -107,7 +107,7 @@ $ pyenv versions
 この時点では、システム標準で入ってるPython 2.7.16がカレントバージョンとなっています。
 
 # カレントバージョンの切り替え
-以下コマンドで3.9.0をカレントにします。ディレクトリ単位で切り替える場合は、`global`ではなく`local`を使いましょう。
+以下コマンドで3.9.0をカレントにします。ここでは`global`指定していますが、ディレクトリ単位で切り替える場合は`global`ではなく`local`を使いましょう。
 
 ```
 % pyenv global 3.9.0
