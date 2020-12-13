@@ -43,7 +43,7 @@ Homebrew未インストールの場合は、公式に記載のコマンドを叩
 
 macOS Catalinaでは、シェルがbashではなくzshになっているので、パスを通すため`.zshrc`ファイルに以下の設定を追記します。
 
-```txt:.zshrc
+```shell:.zshrc
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
