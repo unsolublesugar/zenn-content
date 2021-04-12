@@ -3,7 +3,7 @@ title: "【Slack + Bitbucket連携】issueコメントやプルリク通知を�
 emoji: "🔔"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [slack, bitbucket]
-published: false
+published: true
 ---
 
 # SlackにBitbucket Cloudアプリを追加
