@@ -11,6 +11,11 @@ published: true
 
 Python何もわからんマンのおじさんですが「バージョン管理は必須だよな！」ってことくらい知っているので[pyenv](https://github.com/pyenv/pyenv)を使います（ｷﾘｯ
 
+
+:::message
+追記：macOS Monterey（Apple M1）環境での解説記事も書きました。
+:::
+https://zenn.dev/unsoluble_sugar/articles/283ebf698c307c
 # Mac標準インストールのPythonのバージョン確認
 ちなみにmacOS Catalina 10.15.6で標準インストールされているPythonバージョンは2.7.16でした。
 
