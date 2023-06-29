@@ -4,6 +4,7 @@ emoji: "🙌"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [electron, Windows, Mac, helloworld]
 published: true
+publication_name: "easy_easy"
 ---
 
 # Electronとは
