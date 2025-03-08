@@ -3,7 +3,7 @@ title: "Zenncafeはいいぞ。第1回イベント登壇レポート"
 emoji: "🎙️"
 type: "idea" # tech: 技術記事 / idea: アイデア
 topics: [zenncafe, lt, コミュニティ, zenn, イベント]
-published: false
+published: true
 ---
 
 こんにちは、星影（[@unsoluble_sugar](https://x.com/unsoluble_sugar)）です。
