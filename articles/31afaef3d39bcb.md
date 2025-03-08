@@ -98,7 +98,7 @@ https://note.com/unsoluble_sugar/n/n01177ed57c8c?magazine_key=m3a7a4ec78dae
 
 ![](https://storage.googleapis.com/zenn-user-upload/b67fec876955-20250308.png)
 
-当日も登壇を見ながらリンク先に飛んでいただき、コミュニティに参加してくださった方もいたようので、この手法は一定の効果がありそうです。
+当日も登壇を見ながらリンク先に飛んでいただき、コミュニティに参加してくださった方もいたようなので、この手法は一定の効果がありそうです。
 
 # オフラインイベントはいいぞ
 
