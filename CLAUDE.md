@@ -60,5 +60,6 @@ publication_name: "publication_name" # optional
 - All content is in Japanese
 - Articles must have proper Front Matter to be valid
 - **Topics must be limited to maximum 5 items** - exceeding this limit causes errors
+- **URLs should be placed on separate lines for card view display** - Zenn automatically generates preview cards for standalone URLs
 - Published articles are automatically synced to Zenn platform
 - No build process or testing framework - content is purely Markdown-based
