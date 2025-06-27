@@ -22,8 +22,8 @@ This is a Zenn content repository containing Japanese technical articles and boo
 
 ### Articles
 - Located in `articles/` directory
-- Each article is a Markdown file with frontmatter
-- Frontmatter includes: title, emoji, type (tech/idea), topics, published status
+- Each article is a Markdown file with Front Matter
+- Front Matter includes: title, emoji, type (tech/idea), topics, published status
 - Articles use unique hash-based filenames (e.g., `5330b19412687ee0b435.md`)
 
 ### Books
@@ -32,7 +32,7 @@ This is a Zenn content repository containing Japanese technical articles and boo
 
 ## Content Guidelines
 
-### Frontmatter Format
+### Front Matter Format
 ```yaml
 ---
 title: "Article Title"
@@ -58,7 +58,7 @@ publication_name: "publication_name" # optional
 ## Important Notes
 
 - All content is in Japanese
-- Articles must have proper frontmatter to be valid
+- Articles must have proper Front Matter to be valid
 - **Topics must be limited to maximum 5 items** - exceeding this limit causes errors
 - Published articles are automatically synced to Zenn platform
 - No build process or testing framework - content is purely Markdown-based
