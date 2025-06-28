@@ -62,9 +62,10 @@ jobs:
         id: review
         run: |
           report_file="review-report-$(date +%Y%m).md"
+          current_date="$(date +%Y年%m月)"
           
-          cat > "$report_file" << 'EOF'
-          # 📊 月次記事レビューレポート - $(date +%Y年%m月)
+          cat > "$report_file" << EOF
+          # 📊 月次記事レビューレポート - $current_date
           
           自動生成されたレビューレポートです。以下の観点で記事を評価しました：
           
