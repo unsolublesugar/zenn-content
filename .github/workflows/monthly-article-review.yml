@@ -132,13 +132,19 @@ jobs:
               echo "詳細分析中: $article"
               
               # 記事内容を分析（日本語対応の文字数カウント）
-              word_count=$(python3 -c 'import re; import sys; 
+              word_count=$(python3 << 'PYTHON_EOF' 2>/dev/null || echo "0"
+import re
+import sys
 try:
-  with open("'"$article"'", "r", encoding="utf-8") as f: content = f.read()
-  content = re.sub(r"^---.*?---\n", "", content, flags=re.DOTALL)
-  char_count = len(re.sub(r"\s", "", content))
-  print(char_count)
-except: print("0")' 2>/dev/null || echo "0")
+    with open("$article", "r", encoding="utf-8") as f:
+        content = f.read()
+    content = re.sub(r"^---.*?---\n", "", content, flags=re.DOTALL)
+    char_count = len(re.sub(r"\s", "", content))
+    print(char_count)
+except:
+    print("0")
+PYTHON_EOF
+)
               heading_count=$(grep -c "^#" "$article" || echo "0")
               code_block_count=$(grep -c "\`\`\`\|\`" "$article" || echo "0")
               image_count=$(grep -c "!\[" "$article" || echo "0")
@@ -224,12 +230,16 @@ except: print("0")' 2>/dev/null || echo "0")
               fi
               
               # 総合スコア算出（Python使用でより確実に）
-              total_score_calc=$(python3 -c 'import sys; 
+              total_score_calc=$(python3 << 'PYTHON_EOF' 2>/dev/null || echo "3.5"
+import sys
 try:
-  s1, s2, s3 = '"$structure_score"', '"$content_score"', '"$freshness_score"'
-  result = round((s1 + s2 + s3) / 3, 1)
-  print(f"{result}")
-except: print("3.5")' 2>/dev/null || echo "3.5")
+    s1, s2, s3 = $structure_score, $content_score, $freshness_score
+    result = round((s1 + s2 + s3) / 3, 1)
+    print(f"{result}")
+except:
+    print("3.5")
+PYTHON_EOF
+)
               
               # レビューコメント生成
               cat >> "$report_file" << EOF
