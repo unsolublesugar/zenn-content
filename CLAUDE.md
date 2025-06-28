@@ -86,7 +86,7 @@ git push
 #### Pull Request Workflow:
 - All changes must go through Pull Requests
 - No direct commits to main branch allowed
-- Use `gh pr create` for PR creation
+- Use `gh pr create -a unsolublesugar -l enhancement` for PR creation (automatically assigns repository owner and adds enhancement label)
 - Include appropriate PR descriptions and test plans
 
 ## Important Notes
