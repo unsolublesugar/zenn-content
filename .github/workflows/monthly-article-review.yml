@@ -129,12 +129,24 @@ jobs:
               # 記事の詳細分析を実行
               echo "詳細分析中: $article"
               
-              # 記事内容を分析（日本語対応の文字数カウント）
-              word_count=$(wc -c < "$article" | tr -d ' ' || echo "0")
-              heading_count=$(grep -c "^#" "$article" || echo "0")
-              code_block_count=$(grep -c "\`\`\`\|\`" "$article" || echo "0")
-              image_count=$(grep -c "!\[" "$article" || echo "0")
-              link_count=$(grep -c "http" "$article" || echo "0")
+              # 記事内容を分析（安全な変数処理）
+              word_count=$(wc -c < "$article" 2>/dev/null | tr -d ' ' || echo "0")
+              heading_count=$(grep -c "^#" "$article" 2>/dev/null || echo "0")
+              code_block_count=$(grep -c "\`\`\`\|\`" "$article" 2>/dev/null || echo "0")
+              image_count=$(grep -c "!\[" "$article" 2>/dev/null || echo "0")
+              link_count=$(grep -c "http" "$article" 2>/dev/null || echo "0")
+              
+              # 変数の安全性チェック（数値でない場合は0に設定）
+              word_count=${word_count//[^0-9]/}
+              word_count=${word_count:-0}
+              heading_count=${heading_count//[^0-9]/}
+              heading_count=${heading_count:-0}
+              code_block_count=${code_block_count//[^0-9]/}
+              code_block_count=${code_block_count:-0}
+              image_count=${image_count//[^0-9]/}
+              image_count=${image_count:-0}
+              link_count=${link_count//[^0-9]/}
+              link_count=${link_count:-0}
               
               # 技術的な古さの兆候を検出（フラグベース）
               has_old_dates=false
