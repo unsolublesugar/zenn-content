@@ -90,6 +90,17 @@ jobs:
               title=$(grep "^title:" "$article" | cut -d'"' -f2 || echo "タイトル不明")
               topics=$(grep "^topics:" "$article" | cut -d'[' -f2 | cut -d']' -f1 || echo "トピック不明")
               
+              # publication_nameとarticle_idを取得してリンクを生成
+              # Front Matter内のpublication_nameのみを取得（先頭10行から検索してコメント除外）
+              publication_name=$(head -10 "$article" | grep "^publication_name:" | grep -v "#" | cut -d'"' -f2 || echo "")
+              article_id=$(basename "$article" .md)
+              
+              if [ -n "$publication_name" ]; then
+                article_url="https://zenn.dev/$publication_name/articles/$article_id"
+              else
+                article_url="https://zenn.dev/unsoluble_sugar/articles/$article_id"
+              fi
+              
               # ファイルの最終commit日時を取得（Git logベース）
               file_date=$(git log -1 --format=%ct -- "$article" 2>/dev/null || echo "0")
               current_date=$(date +%s)
@@ -98,6 +109,7 @@ jobs:
               cat >> "$report_file" << EOF
           ### 📄 $title
           
+          **記事リンク**: $article_url  
           **ファイル**: \`$article\`  
           **トピック**: $topics  
           **最終更新**: ${days_old}日前  
