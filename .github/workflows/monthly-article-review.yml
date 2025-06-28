@@ -138,28 +138,34 @@ jobs:
               image_count=$(grep -c "!\[" "$article" || echo "0")
               link_count=$(grep -c "http" "$article" || echo "0")
               
-              # 技術的な古さの兆候を検出
-              old_tech_indicators=""
+              # 技術的な古さの兆候を検出（フラグベース）
+              has_old_dates=false
+              has_old_versions=false
+              has_old_links=false
+              
               if grep -q "2020\|2021\|2022" "$article"; then
-                old_tech_indicators="$old_tech_indicators- 古い日付情報を含む可能性あり\n"
+                has_old_dates=true
               fi
               if grep -qi "windows 10\|node 14\|npm 6" "$article"; then
-                old_tech_indicators="$old_tech_indicators- 古いバージョン情報を含む可能性あり\n"
+                has_old_versions=true
               fi
               if grep -qi "http://\|docs.microsoft.com.*powershell" "$article"; then
-                old_tech_indicators="$old_tech_indicators- 更新が必要なリンクを含む可能性あり\n"
+                has_old_links=true
               fi
               
-              # 記事の強みを分析
-              article_strengths=""
+              # 記事の強みを分析（フラグベース）
+              has_rich_images=false
+              has_rich_code=false
+              has_good_structure=false
+              
               if [ $image_count -gt 5 ]; then
-                article_strengths="$article_strengths- 豊富な画像（${image_count}枚）で視覚的に分かりやすい\n"
+                has_rich_images=true
               fi
               if [ $code_block_count -gt 10 ]; then
-                article_strengths="$article_strengths- 適切なコードブロック使用（${code_block_count}個）\n"
+                has_rich_code=true
               fi
               if [ $heading_count -gt 5 ]; then
-                article_strengths="$article_strengths- 構造化された見出し（${heading_count}個）\n"
+                has_good_structure=true
               fi
               
               cat >> "$report_file" << EOF
@@ -174,18 +180,34 @@ jobs:
           #### 🔍 詳細分析結果
           EOF
           
-              if [ -n "$old_tech_indicators" ]; then
-                cat >> "$report_file" << EOF
-          **⚠️ 技術的な古さの兆候**
-          $old_tech_indicators
-          EOF
+              # 技術的な古さの兆候を出力
+              if [ "$has_old_dates" = true ] || [ "$has_old_versions" = true ] || [ "$has_old_links" = true ]; then
+                echo "          **⚠️ 技術的な古さの兆候**" >> "$report_file"
+                if [ "$has_old_dates" = true ]; then
+                  echo "          - 古い日付情報を含む可能性あり" >> "$report_file"
+                fi
+                if [ "$has_old_versions" = true ]; then
+                  echo "          - 古いバージョン情報を含む可能性あり" >> "$report_file"
+                fi
+                if [ "$has_old_links" = true ]; then
+                  echo "          - 更新が必要なリンクを含む可能性あり" >> "$report_file"
+                fi
+                echo "" >> "$report_file"
               fi
               
-              if [ -n "$article_strengths" ]; then
-                cat >> "$report_file" << EOF
-          **✅ 記事の強み**
-          $article_strengths
-          EOF
+              # 記事の強みを出力
+              if [ "$has_rich_images" = true ] || [ "$has_rich_code" = true ] || [ "$has_good_structure" = true ]; then
+                echo "          **✅ 記事の強み**" >> "$report_file"
+                if [ "$has_rich_images" = true ]; then
+                  echo "          - 豊富な画像（${image_count}枚）で視覚的に分かりやすい" >> "$report_file"
+                fi
+                if [ "$has_rich_code" = true ]; then
+                  echo "          - 適切なコードブロック使用（${code_block_count}個）" >> "$report_file"
+                fi
+                if [ "$has_good_structure" = true ]; then
+                  echo "          - 構造化された見出し（${heading_count}個）" >> "$report_file"
+                fi
+                echo "" >> "$report_file"
               fi
               
               cat >> "$report_file" << EOF
