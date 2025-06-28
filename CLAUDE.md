@@ -50,10 +50,44 @@ publication_name: "publication_name" # optional
 
 ## Development Workflow
 
+### Content Development
 1. Use `npx zenn preview` to start development server
 2. Create new content with `npx zenn new:article` or `npx zenn new:book`
 3. Edit Markdown files in `articles/` or `books/`
 4. Preview changes in browser before publishing
+
+### Git Workflow Rules - STRICTLY ENFORCE
+**NEVER commit directly to main branch. Always use feature branches.**
+
+#### Before ANY git commit:
+1. **ALWAYS check current branch first**: `git branch --show-current`
+2. **If on main branch**: STOP and switch to appropriate branch
+3. **Branch selection strategy**:
+   - Check existing branches: `git branch -a`
+   - Use existing feature branch if relevant (e.g., `feature/claude-code-zenn-analysis-article`)
+   - Create new feature branch if needed: `git checkout -b feature/description`
+
+#### Required Git Commands Sequence:
+```bash
+# 1. Check current branch (MANDATORY)
+git branch --show-current
+
+# 2. If on main, switch to feature branch
+git checkout feature/appropriate-branch-name
+# OR create new branch
+git checkout -b feature/new-feature-name
+
+# 3. Then proceed with normal git workflow
+git add .
+git commit -m "message"
+git push
+```
+
+#### Pull Request Workflow:
+- All changes must go through Pull Requests
+- No direct commits to main branch allowed
+- Use `gh pr create` for PR creation
+- Include appropriate PR descriptions and test plans
 
 ## Important Notes
 
