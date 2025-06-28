@@ -132,13 +132,7 @@ jobs:
               echo "詳細分析中: $article"
               
               # 記事内容を分析（日本語対応の文字数カウント）
-              word_count=$(python3 -c 'import re; import sys; 
-try:
-  with open("'"$article"'", "r", encoding="utf-8") as f: content = f.read()
-  content = re.sub(r"^---.*?---\n", "", content, flags=re.DOTALL)
-  char_count = len(re.sub(r"\s", "", content))
-  print(char_count)
-except: print("0")' 2>/dev/null || echo "0")
+              word_count=$(wc -c < "$article" | tr -d ' ' || echo "0")
               heading_count=$(grep -c "^#" "$article" || echo "0")
               code_block_count=$(grep -c "\`\`\`\|\`" "$article" || echo "0")
               image_count=$(grep -c "!\[" "$article" || echo "0")
@@ -223,13 +217,14 @@ except: print("0")' 2>/dev/null || echo "0")
                 freshness_score=2.5
               fi
               
-              # 総合スコア算出（Python使用でより確実に）
-              total_score_calc=$(python3 -c 'import sys; 
-try:
-  s1, s2, s3 = '"$structure_score"', '"$content_score"', '"$freshness_score"'
-  result = round((s1 + s2 + s3) / 3, 1)
-  print(f"{result}")
-except: print("3.5")' 2>/dev/null || echo "3.5")
+              # 総合スコア算出（簡易版）
+              if [ $(echo "$structure_score >= 4" | bc 2>/dev/null || echo "0") -eq 1 ] && [ $(echo "$content_score >= 4" | bc 2>/dev/null || echo "0") -eq 1 ] && [ $(echo "$freshness_score >= 4" | bc 2>/dev/null || echo "0") -eq 1 ]; then
+                total_score_calc="4.5"
+              elif [ $(echo "$structure_score >= 3.5" | bc 2>/dev/null || echo "0") -eq 1 ] && [ $(echo "$content_score >= 3.5" | bc 2>/dev/null || echo "0") -eq 1 ]; then
+                total_score_calc="4.0"
+              else
+                total_score_calc="3.5"
+              fi
               
               # レビューコメント生成
               cat >> "$report_file" << EOF
