@@ -23,6 +23,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 全履歴を取得してgit logを正常動作させる
         
       - name: Setup Node.js
         uses: actions/setup-node@v4
