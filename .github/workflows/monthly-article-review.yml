@@ -128,13 +128,102 @@ jobs:
                 echo "✅ **最新**: 最近更新されています" >> "$report_file"
               fi
               
+              # 記事の詳細分析を実行
+              echo "詳細分析中: $article"
+              
+              # 記事内容を分析
+              word_count=$(wc -w < "$article" || echo "0")
+              heading_count=$(grep -c "^#" "$article" || echo "0")
+              code_block_count=$(grep -c "\`\`\`\|\`" "$article" || echo "0")
+              image_count=$(grep -c "!\[" "$article" || echo "0")
+              link_count=$(grep -c "http" "$article" || echo "0")
+              
+              # 技術的な古さの兆候を検出
+              old_tech_indicators=""
+              if grep -q "2020\|2021\|2022" "$article"; then
+                old_tech_indicators="$old_tech_indicators- 古い日付情報を含む可能性あり\n"
+              fi
+              if grep -qi "windows 10\|node 14\|npm 6" "$article"; then
+                old_tech_indicators="$old_tech_indicators- 古いバージョン情報を含む可能性あり\n"
+              fi
+              if grep -qi "http://\|docs.microsoft.com.*powershell" "$article"; then
+                old_tech_indicators="$old_tech_indicators- 更新が必要なリンクを含む可能性あり\n"
+              fi
+              
+              # 記事の強みを分析
+              article_strengths=""
+              if [ $image_count -gt 5 ]; then
+                article_strengths="$article_strengths- 豊富な画像（${image_count}枚）で視覚的に分かりやすい\n"
+              fi
+              if [ $code_block_count -gt 10 ]; then
+                article_strengths="$article_strengths- 適切なコードブロック使用（${code_block_count}個）\n"
+              fi
+              if [ $heading_count -gt 5 ]; then
+                article_strengths="$article_strengths- 構造化された見出し（${heading_count}個）\n"
+              fi
+              
               cat >> "$report_file" << EOF
           
-          #### 📝 改善提案
-          - [ ] 最新情報の確認・更新
+          #### 📊 記事分析
+          - **文字数**: ${word_count}語
+          - **見出し数**: ${heading_count}個
+          - **コードブロック**: ${code_block_count}個
+          - **画像数**: ${image_count}枚
+          - **外部リンク**: ${link_count}個
+          
+          #### 🔍 詳細分析結果
+          EOF
+          
+              if [ -n "$old_tech_indicators" ]; then
+                cat >> "$report_file" << EOF
+          **⚠️ 技術的な古さの兆候**
+          $old_tech_indicators
+          EOF
+              fi
+              
+              if [ -n "$article_strengths" ]; then
+                cat >> "$report_file" << EOF
+          **✅ 記事の強み**
+          $article_strengths
+          EOF
+              fi
+              
+              cat >> "$report_file" << EOF
+          
+          #### 📝 具体的改善提案
+          EOF
+              
+              if [ $days_old -gt 365 ]; then
+                cat >> "$report_file" << EOF
+          **🔄 優先度：高（1年以上経過）**
+          - [ ] 最新バージョン情報への更新（OS、ツール、ライブラリ）
+          - [ ] 外部リンクの生存確認と最新化
+          - [ ] 廃止されたAPI/手法の確認と代替案の提示
+          - [ ] セキュリティ関連情報の追加・更新
+          EOF
+              elif [ $days_old -gt 180 ]; then
+                cat >> "$report_file" << EOF
+          **🔄 優先度：中（半年以上経過）**
+          - [ ] バージョン情報の確認・更新
+          - [ ] 外部リンクの確認
+          - [ ] 最新のベストプラクティスとの比較
+          EOF
+              else
+                cat >> "$report_file" << EOF
+          **🔄 優先度：低（最新）**
           - [ ] 関連記事リンクの追加
-          - [ ] SEOキーワードの見直し
-          - [ ] 読みやすさの改善
+          - [ ] SEOキーワードの最適化
+          - [ ] 読みやすさの微調整
+          EOF
+              fi
+              
+              cat >> "$report_file" << EOF
+          
+          **📈 品質向上提案**
+          - [ ] トラブルシューティングセクションの追加
+          - [ ] 実践的な使用例の拡充
+          - [ ] 関連技術との比較・連携方法
+          - [ ] パフォーマンス最適化のヒント
           
           ---
           
