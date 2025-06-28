@@ -87,8 +87,8 @@ jobs:
               echo "レビュー中: $article"
               
               # 記事の基本情報を取得
-              title=$(grep "^title:" "$article" | cut -d'"' -f2 || echo "タイトル不明")
-              topics=$(grep "^topics:" "$article" | cut -d'[' -f2 | cut -d']' -f1 || echo "トピック不明")
+              title=$(grep "^title:" "$article" | sed 's/title: *"//' | sed 's/"$//' || echo "タイトル不明")
+              topics=$(grep "^topics:" "$article" | sed 's/topics: *//' || echo "トピック不明")
               
               # publication_nameとarticle_idを取得してリンクを生成
               # Front Matter内のpublication_nameのみを取得（先頭10行から検索してコメント除外）
@@ -180,91 +180,8 @@ jobs:
           #### 🔍 詳細分析結果
           EOF
           
-              # AIレビューコメント生成
-              echo "          **🤖 AIレビューコメント**" >> "$report_file"
-              
-              # 記事の内容から総合評価を算出（簡易版）
-              # 基本スコア算出: 構造、コンテンツ、古さを総合評価
-              structure_score=3.0
-              content_score=3.0 
-              freshness_score=3.0
-              
-              # 構造スコア（見出し数とコードブロック数から）
-              if [ $heading_count -gt 10 ]; then
-                structure_score=4.5
-              elif [ $heading_count -gt 5 ]; then
-                structure_score=4.0
-              fi
-              
-              # コンテンツスコア（画像、コード、リンクの豊富さから）
-              total_content=$(( image_count + code_block_count + link_count ))
-              if [ $total_content -gt 30 ]; then
-                content_score=4.5
-              elif [ $total_content -gt 15 ]; then
-                content_score=4.0
-              elif [ $total_content -gt 5 ]; then
-                content_score=3.5
-              fi
-              
-              # 新鮮度スコア（最終更新からの経過日数）
-              if [ $days_old -lt 90 ]; then
-                freshness_score=4.5
-              elif [ $days_old -lt 180 ]; then
-                freshness_score=4.0
-              elif [ $days_old -lt 365 ]; then
-                freshness_score=3.5
-              else
-                freshness_score=2.5
-              fi
-              
-              # 総合スコア算出（整数比較版）
-              # 小数点を除去して整数比較
-              structure_int=$(echo "$structure_score" | sed 's/\.//' | head -c 2)
-              content_int=$(echo "$content_score" | sed 's/\.//' | head -c 2)  
-              freshness_int=$(echo "$freshness_score" | sed 's/\.//' | head -c 2)
-              
-              if [ "$structure_int" -ge 40 ] && [ "$content_int" -ge 40 ] && [ "$freshness_int" -ge 40 ]; then
-                total_score_calc="4.5"
-              elif [ "$structure_int" -ge 35 ] && [ "$content_int" -ge 35 ]; then
-                total_score_calc="4.0"
-              else
-                total_score_calc="3.5"
-              fi
-              
-              # レビューコメント生成
-              cat >> "$report_file" << EOF
-          
-          **総合評価**: ${total_score_calc}/5.0
-          
-          この記事は技術的な内容を扱った記事として、以下の観点から評価されました：
-          
-          - **構造性**: ${structure_score}/5.0 - 見出し構造による読みやすさ
-          - **コンテンツ**: ${content_score}/5.0 - 画像・コード・リンクの充実度  
-          - **新鮮度**: ${freshness_score}/5.0 - 情報の最新性
-          
-          **記事の特徴**:
-          EOF
-              
-              # 記事タイプ別のコメント
-              if [ $code_block_count -gt 15 ]; then
-                echo "          - 豊富なコード例により実装手順が具体的に説明されている" >> "$report_file"
-              fi
-              
-              if [ $image_count -gt 10 ]; then
-                echo "          - 豊富な画像により視覚的な理解が促進されている" >> "$report_file"
-              fi
-              
-              if [ $heading_count -gt 10 ]; then
-                echo "          - 詳細な見出し構造により情報が整理されている" >> "$report_file"
-              fi
-              
-              if [ $days_old -gt 365 ]; then
-                echo "          - 情報の更新により価値向上の余地がある" >> "$report_file"
-              elif [ $days_old -lt 90 ]; then
-                echo "          - 最新の情報が反映された新鮮な内容" >> "$report_file"
-              fi
-              
-              echo "" >> "$report_file"
+              # 基本統計情報のみ表示（AIレビューは一時的に無効化）
+              echo "          **📊 基本統計**" >> "$report_file"
           
               # 技術的な古さの兆候を出力
               if [ "$has_old_dates" = true ] || [ "$has_old_versions" = true ] || [ "$has_old_links" = true ]; then
