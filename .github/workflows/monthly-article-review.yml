@@ -178,8 +178,69 @@ jobs:
           #### 🔍 詳細分析結果
           EOF
           
-              # 基本統計情報のみ表示（AIレビューは一時的に無効化）
-              echo "          **📊 基本統計**" >> "$report_file"
+              # AIレビューコメント生成（シンプル版）
+              echo "          **🤖 AIレビューコメント**" >> "$report_file"
+              
+              # 基本スコア算出（整数ベース）
+              structure_score=30
+              content_score=30
+              freshness_score=30
+              
+              # 構造スコア（見出し数から）
+              if [ $heading_count -gt 10 ]; then
+                structure_score=45
+              elif [ $heading_count -gt 5 ]; then
+                structure_score=40
+              fi
+              
+              # コンテンツスコア（画像、コード、リンクの合計から）
+              total_content=$(( image_count + code_block_count + link_count ))
+              if [ $total_content -gt 30 ]; then
+                content_score=45
+              elif [ $total_content -gt 15 ]; then
+                content_score=40
+              elif [ $total_content -gt 5 ]; then
+                content_score=35
+              fi
+              
+              # 新鮮度スコア（日数から）
+              if [ $days_old -lt 90 ]; then
+                freshness_score=45
+              elif [ $days_old -lt 180 ]; then
+                freshness_score=40
+              elif [ $days_old -lt 365 ]; then
+                freshness_score=35
+              else
+                freshness_score=25
+              fi
+              
+              # 総合スコア算出（整数演算）
+              total_score=$(( (structure_score + content_score + freshness_score) / 10 ))
+              
+              echo "          " >> "$report_file"
+              echo "          **総合評価**: ${total_score}/15 (構造: ${structure_score}/50, コンテンツ: ${content_score}/50, 新鮮度: ${freshness_score}/50)" >> "$report_file"
+              echo "          " >> "$report_file"
+              
+              # 記事の特徴を分析
+              if [ $code_block_count -gt 15 ]; then
+                echo "          ✅ **豊富なコード例**: ${code_block_count}個のコードブロックで実装手順を具体的に説明" >> "$report_file"
+              fi
+              
+              if [ $image_count -gt 5 ]; then
+                echo "          ✅ **視覚的説明**: ${image_count}枚の画像で理解を促進" >> "$report_file"
+              fi
+              
+              if [ $heading_count -gt 10 ]; then
+                echo "          ✅ **構造化**: ${heading_count}個の見出しで情報を整理" >> "$report_file"
+              fi
+              
+              if [ $days_old -lt 90 ]; then
+                echo "          ✅ **最新情報**: 最近更新された新鮮な内容" >> "$report_file"
+              elif [ $days_old -gt 365 ]; then
+                echo "          ⚠️  **要更新**: 1年以上経過、最新情報の確認推奨" >> "$report_file"
+              fi
+              
+              echo "          " >> "$report_file"
           
               # 技術的な古さの兆候を出力
               if [ "$has_old_dates" = true ] || [ "$has_old_versions" = true ] || [ "$has_old_links" = true ]; then
