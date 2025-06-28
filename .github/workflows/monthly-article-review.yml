@@ -88,8 +88,8 @@ jobs:
               title=$(grep "^title:" "$article" | cut -d'"' -f2 || echo "タイトル不明")
               topics=$(grep "^topics:" "$article" | cut -d'[' -f2 | cut -d']' -f1 || echo "トピック不明")
               
-              # ファイル更新日を取得
-              file_date=$(stat -c %Y "$article" 2>/dev/null || stat -f %m "$article" 2>/dev/null || echo "0")
+              # ファイルの最終commit日時を取得（Git logベース）
+              file_date=$(git log -1 --format=%ct -- "$article" 2>/dev/null || echo "0")
               current_date=$(date +%s)
               days_old=$(( (current_date - file_date) / 86400 ))
               
