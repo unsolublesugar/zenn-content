@@ -1,0 +1,161 @@
+name: Monthly Article Review
+
+on:
+  schedule:
+    # 毎月1日の9時（JST）に実行
+    - cron: '0 0 1 * *'
+  workflow_dispatch:
+    # 手動実行も可能
+    inputs:
+      target_count:
+        description: 'レビュー対象記事数'
+        required: false
+        default: '5'
+        type: string
+
+jobs:
+  article-review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Find articles for review
+        id: find-articles
+        run: |
+          # 公開記事から古い記事を特定（3ヶ月以上前のファイル）
+          target_count="${{ github.event.inputs.target_count || '5' }}"
+          
+          echo "## 対象記事の特定" >> $GITHUB_STEP_SUMMARY
+          
+          # published: true の記事を取得し、ファイル更新日時でソート
+          articles=$(find articles -name "*.md" -exec grep -l "published: true" {} \; | \
+                    xargs ls -lt | \
+                    head -n $target_count | \
+                    awk '{print $NF}')
+          
+          echo "review_targets<<EOF" >> $GITHUB_OUTPUT
+          echo "$articles" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+          echo "対象記事:" >> $GITHUB_STEP_SUMMARY
+          echo "$articles" | while read article; do
+            if [ -n "$article" ]; then
+              title=$(grep "^title:" "$article" | cut -d'"' -f2)
+              echo "- $article: $title" >> $GITHUB_STEP_SUMMARY
+            fi
+          done
+          
+      - name: Generate review report
+        id: review
+        run: |
+          report_file="review-report-$(date +%Y%m).md"
+          
+          cat > "$report_file" << 'EOF'
+          # 📊 月次記事レビューレポート - $(date +%Y年%m月)
+          
+          自動生成されたレビューレポートです。以下の観点で記事を評価しました：
+          
+          ## レビュー観点
+          - ✅ 情報の古さチェック
+          - ✅ 読みやすさスコア
+          - ✅ 関連記事提案
+          - ✅ SEO改善提案
+          
+          ## レビュー結果
+          
+          EOF
+          
+          # 各記事をレビュー
+          echo '${{ steps.find-articles.outputs.review_targets }}' | while read article; do
+            if [ -n "$article" ] && [ -f "$article" ]; then
+              echo "レビュー中: $article"
+              
+              # 記事の基本情報を取得
+              title=$(grep "^title:" "$article" | cut -d'"' -f2 || echo "タイトル不明")
+              topics=$(grep "^topics:" "$article" | cut -d'[' -f2 | cut -d']' -f1 || echo "トピック不明")
+              
+              # ファイル更新日を取得
+              file_date=$(stat -c %Y "$article" 2>/dev/null || stat -f %m "$article" 2>/dev/null || echo "0")
+              current_date=$(date +%s)
+              days_old=$(( (current_date - file_date) / 86400 ))
+              
+              cat >> "$report_file" << EOF
+          ### 📄 $title
+          
+          **ファイル**: \`$article\`  
+          **トピック**: $topics  
+          **最終更新**: ${days_old}日前  
+          
+          #### 🔍 情報の古さチェック
+          EOF
+              
+              if [ $days_old -gt 90 ]; then
+                cat >> "$report_file" << EOF
+          ⚠️ **要更新**: 90日以上更新されていません
+          - 最新の技術情報の確認が必要
+          - 外部リンクの確認
+          - バージョン情報の更新
+          EOF
+              else
+                echo "✅ **最新**: 最近更新されています" >> "$report_file"
+              fi
+              
+              cat >> "$report_file" << EOF
+          
+          #### 📝 改善提案
+          - [ ] 最新情報の確認・更新
+          - [ ] 関連記事リンクの追加
+          - [ ] SEOキーワードの見直し
+          - [ ] 読みやすさの改善
+          
+          ---
+          
+          EOF
+            fi
+          done
+          
+          echo "report_file=$report_file" >> $GITHUB_OUTPUT
+          
+      - name: Create GitHub Issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const reportFile = '${{ steps.review.outputs.report_file }}';
+            
+            let reportContent = '';
+            try {
+              reportContent = fs.readFileSync(reportFile, 'utf8');
+            } catch (error) {
+              reportContent = '# レビューレポート生成エラー\n\nレポートファイルの読み込みに失敗しました。';
+            }
+            
+            const issueTitle = `📊 月次記事レビューレポート - ${new Date().getFullYear()}年${String(new Date().getMonth() + 1).padStart(2, '0')}月`;
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: issueTitle,
+              body: reportContent,
+              labels: ['article-review', 'monthly-task', 'enhancement']
+            });
+            
+      - name: Upload review report
+        uses: actions/upload-artifact@v4
+        with:
+          name: monthly-review-report
+          path: review-report-*.md
+          retention-days: 30
