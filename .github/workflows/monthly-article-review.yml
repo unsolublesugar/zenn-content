@@ -88,7 +88,6 @@ jobs:
               
               # 記事の基本情報を取得
               title=$(grep "^title:" "$article" | sed 's/title: *"//' | sed 's/"$//' || echo "タイトル不明")
-              topics=$(grep "^topics:" "$article" | sed 's/topics: *//' || echo "トピック不明")
               
               # publication_nameとarticle_idを取得してリンクを生成
               # Front Matter内のpublication_nameのみを取得（先頭10行から検索してコメント除外）
@@ -111,7 +110,6 @@ jobs:
           
           **記事リンク**: $article_url  
           **ファイル**: \`$article\`  
-          **トピック**: $topics  
           **最終更新**: ${days_old}日前  
           
           #### 🔍 情報の古さチェック
