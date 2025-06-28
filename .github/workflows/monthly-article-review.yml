@@ -217,10 +217,15 @@ jobs:
                 freshness_score=2.5
               fi
               
-              # 総合スコア算出（簡易版）
-              if [ $(echo "$structure_score >= 4" | bc 2>/dev/null || echo "0") -eq 1 ] && [ $(echo "$content_score >= 4" | bc 2>/dev/null || echo "0") -eq 1 ] && [ $(echo "$freshness_score >= 4" | bc 2>/dev/null || echo "0") -eq 1 ]; then
+              # 総合スコア算出（整数比較版）
+              # 小数点を除去して整数比較
+              structure_int=$(echo "$structure_score" | sed 's/\.//' | head -c 2)
+              content_int=$(echo "$content_score" | sed 's/\.//' | head -c 2)  
+              freshness_int=$(echo "$freshness_score" | sed 's/\.//' | head -c 2)
+              
+              if [ "$structure_int" -ge 40 ] && [ "$content_int" -ge 40 ] && [ "$freshness_int" -ge 40 ]; then
                 total_score_calc="4.5"
-              elif [ $(echo "$structure_score >= 3.5" | bc 2>/dev/null || echo "0") -eq 1 ] && [ $(echo "$content_score >= 3.5" | bc 2>/dev/null || echo "0") -eq 1 ]; then
+              elif [ "$structure_int" -ge 35 ] && [ "$content_int" -ge 35 ]; then
                 total_score_calc="4.0"
               else
                 total_score_calc="3.5"
