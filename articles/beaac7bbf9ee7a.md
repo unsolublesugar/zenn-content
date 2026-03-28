@@ -3,7 +3,7 @@ title: "「あとで読む（読まない）」を仕組みで解決する — A
 emoji: "💧"
 type: "tech"
 topics: [python, claudecode, ai, githubactions, 個人開発]
-published: false
+published: true
 ---
 
 ## はじめに
