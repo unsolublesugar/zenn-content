@@ -36,6 +36,7 @@ publication_name: "publication_name"  # 任意
 - **Vanilla JS** … 素の JavaScript を指す表記は「Vanilla JS」で統一（「バニラJS」「バニラ JavaScript」は使わない）。初出付近で語源解説記事を添える: https://zenn.dev/seya/articles/66809b3d59151c
 - **表記ゆれの統一** … 同じ対象を指す語は記事内で1つに統一する。やむを得ず複数表現を使う場合は、初出で「正式名（別名）」の形で定義してから以降を統一（例: 「資産構成ドーナツ（円グラフ）」と定義し、以降は「ドーナツ」）。
 - **専門用語の補足** … 想定読者に馴染みの薄い用語（トンマナ、ヒーロー、mixin、dc-runtime 等）は初出で簡単な補足を入れる。短い補足はインライン括弧書き、まとまった解説や参照リンクは Zenn のメッセージ記法（`:::message`）やトグル（`:::details`）を活用する。
+  - **用語補足トグルのタイトルは「用語メモ：<用語名>」で揃える**（例: `:::details 用語メモ：dc-runtime`、`:::details 用語メモ：Vanilla JS`）。プレフィックスを統一して一覧性を出す。
   - Zenn記法リファレンス: https://zenn.dev/zenn/articles/markdown-guide#%E3%83%A1%E3%83%83%E3%82%BB%E3%83%BC%E3%82%B8
   - dc-runtime（`<x-dc>` カスタム要素ベースの軽量ランタイム。`support.js` はその生成物で `// GENERATED from dc-runtime/src/*.ts` と明記。公開ドキュメントは未確認のため出自は断定せず、リポジトリ内の事実と一次体験に基づいて記述する）の補足で添える「ランタイムとは」解説: https://zenn.dev/tenchijin/articles/20240618_runtime
 - **Claude Design の初出解説** … Claude Design に言及する記事では初出で機能の一言説明と公式ヘルプを添える:
