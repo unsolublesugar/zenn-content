@@ -47,4 +47,17 @@ gh pr create -a unsolublesugar -l enhancement
 ## PR作成ルール
 
 - `gh pr create -a unsolublesugar -l enhancement` を使用（オーナーアサイン + enhancementラベル自動付与）
+- ベースブランチは `main`（リモートのデフォルトブランチ）。`gh pr create` 時に `--base master` を付けない（`master` も存在するため誤指定に注意）
 - PRの説明とテストプランを含めること
+
+### PR・Issue本文の自動リンク対策
+
+GitHub はPR/Issue **本文** 内の `#数字` や `@ユーザー名` を、リポジトリ内のIssue/PRやGitHubアカウントへ自動リンク（＋メンション通知）してしまう。イベント名の「#78」やSNSアカウントの「@handle」が無関係な対象へ繋がるため、本文では次のいずれかで無効化する。
+
+- **`#数字`**（例: イベント回次の `#78`）
+  - 正確なURLがある場合はリンク化する（例: `[#78](https://easy2.connpass.com/event/395246/)`）
+  - 汎用的な参照はバックスラッシュでエスケープする（例: `\#77`・`\#76`）
+- **`@ユーザー名`**（SNSハンドル等、GitHubアカウントでないもの）
+  - バッククォートのコード表記にする（例: `` `@paseri_kurosawa` ``）、または正しいプロフィールURLへリンク化する
+- **PR/Issueタイトル** はGitHubがプレーンテキスト扱いで自動リンクしないため、対応不要
+- Markdown見出し（記事本文の `# LT1:` 等）はGitHub上の自動リンク対象外なので変更しない
