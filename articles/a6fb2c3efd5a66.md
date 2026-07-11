@@ -2,7 +2,7 @@
 title: "Cloudflare Registrar + R2 で個人開発アプリの公開基盤を構築した記録"
 emoji: "🌐"
 type: "tech"
-topics: [cloudflare, domain, claudecode, dns, 個人開発]
+topics: [cloudflare, domain, githubpages, dns, 個人開発]
 published: true
 ---
 
