@@ -422,7 +422,7 @@ curl -s -H "Origin: https://evil.example.com" -D - -o /dev/null -r 0-0 \
 
 結果は、全ファイル 200・許可オリジンのみ `access-control-allow-origin` 返却・Range リクエスト 206 対応・`cf-cache-status: MISS` → 2回目以降エッジキャッシュ作動、となり期待どおりでした。
 
-## 6. クリーンURL化（進行中）
+## 6. クリーンURL化
 
 `/` や `/app` といったパスを、リダイレクトで実体の HTML ファイル名に変えることなく、そのままの URL で配信する計画も進めています。Cloudflare プロキシ + Transform Rules を使う方式で、こちらは **まだ作業途中** です。
 
