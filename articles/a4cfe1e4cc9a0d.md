@@ -1,5 +1,5 @@
 ---
-title: "Claude Designのハンドオフを Claude Code で再実装する 〜動画ポータル開発の技術記録〜"
+title: "Claude DesignのハンドオフをClaude Codeで再実装する 〜動画ポータル開発の技術記録〜"
 emoji: "🎬"
 type: "tech"
 topics: [claudecode, claudedesign, 個人開発, githubpages, python]
