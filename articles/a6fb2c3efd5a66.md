@@ -8,6 +8,12 @@ published: true
 
 ## はじめに
 
+:::message
+**追記**: 本記事の続編を公開しました。「6. クリーンURL化」を Cloudflare プロキシ + Transform Rules で完了させた際の記録です。あわせてどうぞ。
+
+https://zenn.dev/unsoluble_sugar/articles/f62f1fdc63b8e5
+:::
+
 現在、個人開発でWebアプリを作っています。プロダクト自体は未リリースのため対象アプリに関する詳細説明は省きますが、「独自ドメイン取得〜公開基盤の構築」までを数時間で一気に進めたので、その際の手順・設定値・ハマりどころを記事として残しておきます。
 
 :::message
@@ -422,7 +428,11 @@ curl -s -H "Origin: https://evil.example.com" -D - -o /dev/null -r 0-0 \
 
 事前準備として、ローカルで URL 書き換え相当のサーバーを立てて実機検証だけ済ませました。Python の `SimpleHTTPRequestHandler.translate_path` をオーバーライドして、`/` や `/app` を同一 URL のまま実体ファイルにマッピングするサーバーです。拡張子なしのパスでもアプリが正しく動作することを確認できました。
 
-本番適用は「www の証明書発行後 → SSL/TLS を Full (Strict) に → apex の A レコードをオレンジ雲化 → Transform Rules 追加」という順序で行う必要があり、順序を守らないと証明書発行の妨害やリダイレクトループが起きます。このあたりは実施後に別途まとめるかもです。
+本番適用は「www の証明書発行後 → SSL/TLS を Full (Strict) に → apex の A レコードをオレンジ雲化 → Transform Rules 追加」という順序で行う必要があり、順序を守らないと証明書発行の妨害やリダイレクトループが起きます。
+
+**▼追記：この作業を完了させた記録を書きました。**
+
+https://zenn.dev/unsoluble_sugar/articles/f62f1fdc63b8e5
 
 ## 学び・ハマりどころまとめ
 
