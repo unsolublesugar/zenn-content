@@ -30,6 +30,8 @@ https://zenn.dev/unsoluble_sugar/articles/f62f1fdc63b8e5
 4. 正式公開までの coming-soon ゲート設計
 5. 大容量アセットの Cloudflare R2 ハイブリッド配信化
 
+これらは上から順に依存しています。DNS が通らないと GitHub Pages の証明書が発行されず、Pages が動く状態にならないと R2 へのアセット退避やクリーンURL化にも進めません。以降の各章もこの作業順どおりに並べているので、初めて同じ構成を組む場合は上から順に進めるのが安全です。
+
 ## 構成の全体像（完成形）
 
 ```text
@@ -422,15 +424,20 @@ curl -s -H "Origin: https://evil.example.com" -D - -o /dev/null -r 0-0 \
 
 結果は、全ファイル 200・許可オリジンのみ `access-control-allow-origin` 返却・Range リクエスト 206 対応・`cf-cache-status: MISS` → 2回目以降エッジキャッシュ作動、となり期待どおりでした。
 
-## 6. クリーンURL化
+## 6. クリーンURL化（続編で完成）
 
-`/` や `/app` といったパスを、リダイレクトで実体の HTML ファイル名に変えることなく、そのままの URL で配信する計画も進めています。Cloudflare プロキシ + Transform Rules を使う方式で、こちらは **まだ作業途中** です。
+`/` や `/app` といったパスを、リダイレクトで実体の HTML ファイル名に変えることなく、そのままの URL で配信するクリーンURL化。これは Cloudflare プロキシ + Transform Rules を使う方式で、本記事の作業のあとに進めました。
 
-事前準備として、ローカルで URL 書き換え相当のサーバーを立てて実機検証だけ済ませました。Python の `SimpleHTTPRequestHandler.translate_path` をオーバーライドして、`/` や `/app` を同一 URL のまま実体ファイルにマッピングするサーバーです。拡張子なしのパスでもアプリが正しく動作することを確認できました。
+事前準備として、Python の `SimpleHTTPRequestHandler.translate_path` をオーバーライドしたローカルサーバーで実機検証を済ませました。
 
-本番適用は「www の証明書発行後 → SSL/TLS を Full (Strict) に → apex の A レコードをオレンジ雲化 → Transform Rules 追加」という順序で行う必要があり、順序を守らないと証明書発行の妨害やリダイレクトループが起きます。
+本番適用には順序があり、次の流れを守らないと証明書発行の妨害やリダイレクトループが起きます。
 
-**▼追記：この作業を完了させた記録を書きました。**
+1. www の証明書発行を待つ
+2. SSL/TLS を Full (Strict) に切り替える
+3. apex の A レコードをオレンジ雲（Cloudflare プロキシ有効）にする
+4. Transform Rules を追加する
+
+具体的な設定と各ステップの詳細は続編にまとめています。
 
 https://zenn.dev/unsoluble_sugar/articles/f62f1fdc63b8e5
 
