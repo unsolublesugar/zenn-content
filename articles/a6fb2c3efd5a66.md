@@ -8,8 +8,8 @@ published: true
 
 ## はじめに
 
-:::message
-**追記**: 本記事の続編を公開しました。「6. クリーンURL化」を Cloudflare プロキシ + Transform Rules で完了させた際の記録です。あわせてどうぞ。
+:::details 追記：続編を公開しました
+「6. クリーンURL化」を Cloudflare プロキシ + Transform Rules で完了させた際の記録です。あわせてどうぞ。
 
 https://zenn.dev/unsoluble_sugar/articles/f62f1fdc63b8e5
 :::
