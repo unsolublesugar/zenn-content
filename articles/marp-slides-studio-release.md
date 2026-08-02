@@ -122,7 +122,9 @@ flowchart TD
 ![business-azureテーマのコードブロック入りスライド](https://static.zenn.studio/user-upload/905a067793f1-20260802.png)
 *同デッキのコードブロック入りスライド*
 
-後述の作例3本も、すべてこの方法で自分の記事から起こしました。
+後述の作例3本も、すべてこの方法で自分の記事から起こしました。実際に本記事をスライド化したものがこちらです。
+
+@[docswell](https://www.docswell.com/s/unsoluble_sugar/ZGNJDP-2026-08-02-marp-slides-studio-release)
 
 ### テーマ選び：50種から絞り込む2つのツール
 
