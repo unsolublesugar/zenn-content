@@ -12,6 +12,10 @@ published: true
 「6. クリーンURL化」を Cloudflare プロキシ + Transform Rules で完了させた際の記録です。あわせてどうぞ。
 
 https://zenn.dev/unsoluble_sugar/articles/f62f1fdc63b8e5
+
+さらにその後、アクセス解析（Cloudflare Web Analytics）の導入と公開直前の CSP 不備の修正を経て、β版公開に至るまでの記録はこちらです。
+
+https://zenn.dev/unsoluble_sugar/articles/867452eabeaa20
 :::
 
 現在、個人開発でWebアプリを作っています。プロダクト自体は未リリースのため対象アプリに関する詳細説明は省きますが、「独自ドメイン取得〜公開基盤の構築」までを数時間で一気に進めたので、その際の手順・設定値・ハマりどころを記事として残しておきます。
