@@ -246,9 +246,9 @@ https://firebase.google.com/docs/rules/unit-tests?hl=ja
 
 「紙の本/Kindle切替 → タイトル検索 → 選んで登録」というタイトル検索機能も実装しました（次節の事情により現時点では未公開の機能です）。
 
-検索にはPA-API（Amazon商品検索API）を使います。PA-APIはSecretKeyでリクエスト署名するためブラウザから呼べず、ここで本プロジェクト初のサーバーサイドコードとして、[Cloud Functions](https://firebase.google.com/docs/functions?hl=ja)（第2世代・実体はCloud Run）によるプロキシが登場します。
-
 ![タイトル検索UI（紙の本/Kindle切替と検索結果リスト・開発ビルドの画面）](https://static.zenn.studio/user-upload/e1146d9b7f57-20260821.png)
+
+検索にはPA-API（Amazon商品検索API）を使います。PA-APIはSecretKeyでリクエスト署名するためブラウザから呼べず、ここで本プロジェクト初のサーバーサイドコードとして、[Cloud Functions](https://firebase.google.com/docs/functions?hl=ja)（第2世代・実体はCloud Run）によるプロキシが登場します。
 
 - APIキーは[Functions Secrets](https://firebase.google.com/docs/functions/config-env?hl=ja)（Secret Manager）に保管
   - チャットを経由させず、`firebase functions:secrets:set` の対話入力で人間が直接登録
