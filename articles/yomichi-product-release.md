@@ -30,7 +30,7 @@ https://zenn.dev/unsoluble_sugar/articles/fd73c7b67d80ce
 
 https://zenn.dev/unsoluble_sugar/articles/a4cfe1e4cc9a0d
 
-同じ流れで開発したCloudflare構成のサービス「Mirai Mirror」も先日β版として公開していますが、この開発スタイルで他ユーザーがアカウント認証して使えるサービスを作ったのは、今回が初めてです。
+同じ流れでは、Webカメラでアバターを動かすアプリ「[Mirai Mirror](https://miraimirror.app/)」も先日β版として公開しています（こちらはCloudflare構成）。ただし、他のユーザーがアカウント認証して使えるサービスを作ったのは今回が初めてです。
 
 https://zenn.dev/unsoluble_sugar/articles/867452eabeaa20
 
