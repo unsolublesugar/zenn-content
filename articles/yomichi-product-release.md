@@ -1,5 +1,5 @@
 ---
-title: "本棚アプリをReact + Firebaseでリリースするまでの開発記録 〜セキュリティルールの不備とPA-API廃止対応〜"
+title: "本棚アプリをReact + Firebaseでリリースするまでの開発記録。セキュリティルールの不備とPA-API廃止対応"
 emoji: "📚"
 type: "tech"
 topics: [claudecode, ai, firebase, react, 個人開発]
