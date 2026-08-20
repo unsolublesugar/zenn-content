@@ -34,7 +34,7 @@ https://zenn.dev/unsoluble_sugar/articles/a4cfe1e4cc9a0d
 
 https://zenn.dev/unsoluble_sugar/articles/867452eabeaa20
 
-## 開発の進め方: issue駆動 + 1 issue = 1 PR
+## 開発の進め方: issue駆動
 
 最初にやったのはコーディングではなくリポジトリの土台作りです。`CLAUDE.md` / `.claude/rules/` / `.steering/` 等のハーネスを既存リポジトリの規約から踏襲し、ロードマップをissueに分解していきました。
 
