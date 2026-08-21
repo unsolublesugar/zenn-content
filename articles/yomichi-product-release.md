@@ -10,9 +10,11 @@ published: true
 
 Claude Designで作った本棚アプリ「[ヨミチ](https://yomichi-app.web.app)」のプロトタイプを、Claude Codeとの協働でWebサービスとして公開しました。
 
-https://yomichi-app.web.app/u/unsoluble-sugar
+「どんなアプリ？」というサービス紹介・リリース報告はnoteに書いています。
 
-本記事は、認証・クラウド同期・他ユーザー公開・PWA対応までを進めた開発記録です。
+https://note.com/unsoluble_sugar/n/n5f6260f6ef5f
+
+本記事はその技術編として、認証・クラウド同期・他ユーザー公開・PWA対応までを進めた開発記録です。
 
 :::details 用語メモ：Claude Design
 Anthropicが提供するデザイン機能。チャットで対話しながらUIデザインやWebページをビジュアルに作り込める。作ったデザインは動くHTMLとして書き出せるため、そのままプロトタイプとして扱える。
