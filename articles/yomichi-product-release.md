@@ -8,7 +8,7 @@ published: true
 
 ## はじめに
 
-[Claude Design](https://support.claude.com/ja/articles/14604416-claude-design%E3%82%92%E5%A7%8B%E3%82%81%E3%82%8B)（チャットで対話しながらデザインを作り込めるClaudeの機能）で作った本棚アプリ「[ヨミチ](https://yomichi-app.web.app)」のプロトタイプを、Claude Codeとの協働でWebサービスとして公開しました。
+Claude Design（チャットで対話しながらデザインを作り込めるClaudeの機能）で作った本棚アプリ「[ヨミチ](https://yomichi-app.web.app)」のプロトタイプを、Claude Codeとの協働でWebサービスとして公開しました。
 
 https://yomichi-app.web.app/u/unsoluble-sugar
 
