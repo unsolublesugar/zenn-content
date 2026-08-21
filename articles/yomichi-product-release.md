@@ -10,6 +10,8 @@ published: true
 
 Claude Designで作った本棚アプリ「[ヨミチ](https://yomichi-app.web.app)」のプロトタイプを、Claude Codeとの協働でWebサービスとして公開しました。
 
+https://yomichi-app.web.app/u/unsoluble-sugar
+
 「どんなアプリ？」というサービス紹介・リリース報告はnoteに書いています。
 
 https://note.com/unsoluble_sugar/n/n5f6260f6ef5f
